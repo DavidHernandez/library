@@ -4,8 +4,20 @@
  * Implements hook_form_FORM_ID_alter().
  */
 function custom_form_contact_personal_form_alter(&$form, &$form_state, $form_id) {
-  $nid = $_GET['id'];
-  $node = node_load($nid);
-  $form['subject']['#default_value'] = 'Solicitud de libro: ' . $node->title;
-  $form['subject']['#disabled'] = TRUE;
+  global $user;
+  if (isset($_GET['id'])) {
+    $nid = $_GET['id'];
+    $node = node_load($nid);
+    $form['subject']['#default_value'] = 'Solicitud de libro: ' . $node->title;
+    $form['subject']['#disabled'] = TRUE;
+    $form['message']['#default_value'] = 'Hola!
+
+Estás recibiendo este e-mail porque tienes el libro ' . $node->title . ' en la web de BiblioTec.es. Me gustaría saber si está disponible y como podemos hacer la entrega.
+
+Muchas gracias!
+' . $user->name . '
+' . url('user/' . $user->uid, array('absolute' => TRUE)) . '
+
+' . url('<front>', array('absolute' => TRUE));
+  }
 }
