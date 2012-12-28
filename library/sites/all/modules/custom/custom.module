@@ -1,0 +1,11 @@
+<?php
+
+/*
+ * Implements hook_form_FORM_ID_alter().
+ */
+function custom_form_contact_personal_form_alter(&$form, &$form_state, $form_id) {
+  $nid = $_GET['id'];
+  $node = node_load($nid);
+  $form['subject']['#default_value'] = 'Solicitud de libro: ' . $node->title;
+  $form['subject']['#disabled'] = TRUE;
+}
